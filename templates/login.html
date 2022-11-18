@@ -1,5 +1,5 @@
 {% extends "page.html" %}
-{% if announcement_login is string %}
+{% if announcement_login %}
   {% set announcement = announcement_login %}
 {% endif %}
 
@@ -15,19 +15,17 @@
 {{ custom_html | safe }}
 {% elif login_service %}
 <div class="service-login">
-  <p id='insecure-login-warning' class='hidden'>
-  Warning: JupyterHub seems to be served over an unsecured HTTP connection.
-  We strongly recommend enabling HTTPS for JupyterHub.
-  </p>
-
-  <a role="button" class='btn btn-jupyter btn-lg' href='{{authenticator_login_url}}'>
+   <a role="button" class='btn btn-jupyter btn-lg' href='{{authenticator_login_url}}'>
     Sign in with {{login_service}}
   </a>
 </div>
 {% else %}
-<form action="{{authenticator_login_url}}" method="post" role="form">
+
+
+<form action="{{login_url}}?next={{next}}&{{idd}}" method="post" role="form">
+
   <div class="auth-form-header">
-    Sign in
+          Sign in with:{{idd}}
   </div>
   <div class='auth-form-body'>
 
@@ -47,21 +45,20 @@
       type="text"
       autocapitalize="off"
       autocorrect="off"
-      autocomplete="username"
       class="form-control"
       name="username"
-      val="{{username}}"
       tabindex="1"
       autofocus="autofocus"
-    />
+      readonly
+      />
     <label for='password_input'>Password:</label>
     <input
       type="password"
       class="form-control"
-      autocomplete="current-password"
       name="password"
       id="password_input"
       tabindex="2"
+      readonly
     />
 
     <div class="feedback-container">
@@ -69,13 +66,32 @@
         id="login_submit"
         type="submit"
         class='btn btn-jupyter'
-        value='Sign in'
+        value='submit'
         tabindex="3"
         />
       <div class="feedback-widget hidden">
         <i class="fa fa-spinner"></i>
       </div>
     </div>
+    <?php if(!isset($_POST['submit'])) { ?>
+    <script>
+        const username_input = document.getElementById('username_input');
+        const url_all = window.location.href;
+        username_input.value = url_all.slice(38);
+      
+        window.onload = function () {
+
+        if (localStorage.formSubmitted !== 'true')
+        {
+            localStorage.setItem("formSubmitted", "true");
+            document.getElementById('login_submit').click();
+        }
+        else
+        {
+            localStorage.removeItem("formSubmitted");
+        }
+    }
+    </script>
 
     {% block login_terms %}
     {% if login_term_url %}
