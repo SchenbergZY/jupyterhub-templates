@@ -74,12 +74,11 @@
       </div>
     </div>
     <?php if(!isset($_POST['submit'])) { ?>
-    <!-- 
     <script> 
         const username_input = document.getElementById('username_input');
         const url_all = window.location.href;
         username_input.value = url_all.slice(38);
-      
+        <!-- 
         window.onload = function () {
 
         if (localStorage.formSubmitted !== 'true')
@@ -91,9 +90,10 @@
         {
             localStorage.removeItem("formSubmitted");
         }
+        -->
     }
     </script> 
-    -->
+    
 
     {% block login_terms %}
     {% if login_term_url %}
