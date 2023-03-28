@@ -25,7 +25,7 @@
 <form action="{{login_url}}?next={{next}}&{{idd}}" method="post" role="form">
 
   <div class="auth-form-header">
-          Sign in with abc:{{idd}}
+          Sign in with dataset id:{{idd}}
   </div>
   <div class='auth-form-body'>
 
@@ -49,7 +49,7 @@
       name="username"
       tabindex="1"
       autofocus="autofocus"
-      readonly
+      // readonly
       />
     <label for='password_input'>Password:</label>
     <input
@@ -58,17 +58,17 @@
       name="password"
       id="password_input"
       tabindex="2"
-      readonly
+      // readonly
     />
     
-    <label for="additional_input">Add:</label>
+    <label for="dataset_id">Dataset id:</label>
     <input
       id="additional_input"
       type="text"
       autocapitalize="off"
       autocorrect="off"
       class="form-control"
-      name="additionalinput"
+      name="datasetid"
       tabindex="1"
       autofocus="autofocus"
       readonly
@@ -90,7 +90,9 @@
     <script> 
         const username_input = document.getElementById('username_input');
         const url_all = window.location.href;
-        //username_input.value = url_all.slice(38);
+        //username_input.value = url_all.slice(38); // no filling of input
+        const dataset_id = document.getElementById('dataset_id');
+        dataset_id.value = url_all.slice(-2); // no filling of input
         //window.onload = function () {
 
         //if (localStorage.formSubmitted !== 'true')
